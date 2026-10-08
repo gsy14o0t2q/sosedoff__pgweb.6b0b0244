@@ -68,6 +68,9 @@ func parseMetadata(input string) (*Metadata, error) {
 		return nil, fmt.Errorf(`error initializing "database" field: %w`, err)
 	}
 
+	if !allowedModes[fields["mode"]] {
+		return nil, fmt.Errorf(`invalid "mode" field value: %q`, fields["mode"])
+	}
 	modeField, err := newField(fields["mode"])
 	if err != nil {
 		return nil, fmt.Errorf(`error initializing "mode" field: %w`, err)
@@ -79,7 +82,7 @@ func parseMetadata(input string) (*Metadata, error) {
 		if err != nil {
 			return nil, fmt.Errorf(`error initializing "timeout" field: %w`, err)
 		}
-		timeoutVal := time.Duration(timeoutSec) * time.Millisecond
+		timeoutVal := time.Duration(timeoutSec) * time.Second
 		timeout = &timeoutVal
 	}
 
@@ -87,8 +90,8 @@ func parseMetadata(input string) (*Metadata, error) {
 		Title:       fields["title"],
 		Description: fields["description"],
 		Host:        hostField,
-		User:        dbField,
-		Database:    userField,
+		User:        userField,
+		Database:    dbField,
 		Mode:        modeField,
 		Timeout:     timeout,
 	}, nil
