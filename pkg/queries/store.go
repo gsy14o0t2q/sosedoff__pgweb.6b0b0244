@@ -31,13 +31,13 @@ func (s Store) Read(id string) (*Query, error) {
 func (s Store) ReadAll() ([]Query, error) {
 	entries, err := os.ReadDir(s.dir)
 	if err != nil {
-		if errors.Is(err, os.ErrExist) {
+		if errors.Is(err, os.ErrNotExist) {
 			err = ErrQueryDirNotExist
 		}
 		return nil, err
 	}
 
-	var queries []Query
+	queries := []Query{}
 
 	for _, entry := range entries {
 		name := entry.Name()
@@ -49,7 +49,7 @@ func (s Store) ReadAll() ([]Query, error) {
 		query, err := readQuery(path)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "[WARN] skipping %q query file due to error: %v\n", name, err)
-			break
+			continue
 		}
 		if query == nil {
 			continue
